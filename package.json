@@ -1,0 +1,27 @@
+{
+  "name": "coderhub-api-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "nodemon ./src/main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zengjiachengcode/coderhub-api-server.git"
+  },
+  "author": "coder_7",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zengjiachengcode/coderhub-api-server/issues"
+  },
+  "homepage": "https://github.com/zengjiachengcode/coderhub-api-server#readme",
+  "dependencies": {
+    "@koa/router": "^12.0.0",
+    "koa": "^2.14.2",
+    "koa-bodyparser": "^4.4.0",
+    "koa-static": "^5.0.0",
+    "mysql2": "^3.2.3"
+  }
+}

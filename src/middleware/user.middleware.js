@@ -1,4 +1,5 @@
 const { getUserByName } = require("../db/user.db");
+const MD5password = require("../utils/crypto");
 
 class UserMiddleware {
   async verifyUser(ctx, next) {
@@ -25,6 +26,10 @@ class UserMiddleware {
     if (isExist) {
       return ctx.app.emit("error", -1003, ctx);
     }
+    await next();
+  }
+  async handlerPassowrd(ctx, next) {
+    ctx.request.body.password = MD5password(ctx.request.body.password);
     await next();
   }
 }

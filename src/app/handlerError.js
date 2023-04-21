@@ -11,7 +11,6 @@ function handlerError(code, ctx) {
       msg = "用户已经存在";
       break;
   }
-  console.log(code);
   ctx.body = {
     code,
     msg,

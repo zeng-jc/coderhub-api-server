@@ -1,5 +1,5 @@
 const KoaRouter = require("@koa/router");
-const userRouter = KoaRouter({ prefix: "/user" });
+const userRouter = new KoaRouter({ prefix: "/user" });
 const { verifyUser, handlerPassowrd } = require("../middleware/user.middleware");
 const { create } = require("../controller/user.controller");
 

@@ -25,9 +25,11 @@ class loginController {
     };
   }
   async isLogin(ctx, next) {
-    const token = ctx.header.authorization.replace("Bearer ", "");
+    const token = ctx.header.authorization;
+    if (!token) return ctx.app.emit("error", -1006, ctx);
     try {
-      jwt.verify(token, PUBLIC_KEY);
+      const result = jwt.verify(token.replace("Bearer ", ""), PUBLIC_KEY);
+      ctx.user = result;
       await next();
     } catch (error) {
       ctx.app.emit("error", -1006, ctx);

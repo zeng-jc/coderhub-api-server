@@ -9,6 +9,16 @@ class userController {
       msg: "注册成功",
     };
   }
+  async users(ctx, next) {
+    const res = await userDB.users(ctx.query);
+    ctx.body = {
+      code: 200,
+      msg: "用户列表获取成功",
+      data: {
+        users: res,
+      },
+    };
+  }
 }
 
 module.exports = new userController();

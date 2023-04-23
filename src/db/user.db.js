@@ -10,7 +10,13 @@ class UserDB {
     const statement = `insert into user (username,password,nickname,gender) values (?,?,?,?);`;
     const { username, password, nickname, gender } = userInfo;
     const res = await connectPool.execute(statement, [username, password, nickname, gender]);
-    return res;
+    return res[0];
+  }
+  async users(query) {
+    const { limit, offset } = query;
+    const statement = "select * from user limit ? offset ?;";
+    const [values] = await connectPool.execute(statement, [limit, offset]);
+    return values;
   }
 }
 

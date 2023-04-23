@@ -4,28 +4,44 @@ const path = require("path");
 
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
-const privateKey = fs.readFileSync(path.resolve(__dirname, "../app/secretKey/private.key"));
+const PRIVATE_KEY = fs.readFileSync(path.resolve(__dirname, "../app/secretKey/private.key"));
+const PUBLIC_KEY = fs.readFileSync(path.resolve(__dirname, "../app/secretKey/public.key"));
 
 class loginController {
   async login(ctx, next) {
-    const { username } = ctx.request.body;
-    const password = MD5password(ctx.request.body.password);
-    const res = await login(username, password);
+    const { username, password } = ctx.request.body;
+    // 判断账号密码是否为空
+    if (!username || !password) return ctx.app.emit("error", -1004, ctx);
+    const res = await login(username, MD5password(password));
+    // 如果没有查询到，res是一个空数组
+    console.log(res);
+    if (!res.length) return ctx.app.emit("error", -1005, ctx);
     const payload = { id: res.id, name: res.username };
-    const token = jwt.sign(payload, privateKey, {
+    const token = jwt.sign(payload, PRIVATE_KEY, {
       algorithm: "RS256",
       expiresIn: 60 * 60 * 24,
     });
+    const { nickname, gender, avatar } = res[0];
     ctx.body = {
       code: 200,
       msg: "登录成功",
       data: {
+        username,
+        nickname,
+        gender,
+        avatar,
         token,
-        username: res.username,
-        nickname: res.nickname,
-        gender: res.gender,
       },
     };
+  }
+  async isLogin(ctx, next) {
+    const token = ctx.header.authorization.replace("Bearer ", "");
+    try {
+      jwt.verify(token, PUBLIC_KEY);
+      await next();
+    } catch (error) {
+      ctx.app.emit("error", -1006, ctx);
+    }
   }
 }
 

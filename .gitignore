@@ -27,4 +27,4 @@ coverage
 *.sln
 *.sw?
 
-src/app/secretKey/
+secretKey/

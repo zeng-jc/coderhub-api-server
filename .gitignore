@@ -27,4 +27,5 @@ coverage
 *.sln
 *.sw?
 
-secretKey/*
+# 忽略secretKey下面所有文件
+/src/app/secretKey/**

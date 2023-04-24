@@ -30,9 +30,8 @@ class momentController {
     };
   }
   async remove(ctx, next) {
-    const moment_id = ctx.request.body.id;
+    const moment_id = ctx.params.momentId;
     const user_id = ctx.user.id;
-    if (!moment_id) return ctx.app.emit("error", -1001, ctx);
     const res = await remove(moment_id, user_id);
     if (res.affectedRows === 0) return ctx.app.emit("error", -1007, ctx);
     ctx.body = {

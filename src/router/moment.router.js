@@ -6,6 +6,6 @@ const momentRouter = new KoaRouter({ prefix: "/moment" });
 
 momentRouter.post("/", isLogin, create);
 momentRouter.get("/", list);
-momentRouter.delete("/", isLogin, remove);
+momentRouter.delete("/:momentId", isLogin, remove);
 
 module.exports = momentRouter;

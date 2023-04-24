@@ -18,10 +18,13 @@ class momentDB {
     return values;
   }
   async remove(moment_id, user_id) {
-    console.log(moment_id);
-    const statement = "delete from moment where id = ?;";
-    const res = await connectPool.execute(statement, [moment_id]);
+    const statement = "delete from moment where id = ? && user_id = ?;";
+    const res = await connectPool.execute(statement, [moment_id, user_id]);
     return res[0];
+  }
+  async totalCount() {
+    const [res] = await connectPool.execute("select count(*) count from moment;");
+    return res[0].count;
   }
 }
 

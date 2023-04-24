@@ -2,10 +2,10 @@ function handlerError(code, ctx) {
   let status, msg;
   switch (code) {
     case -1001:
-      msg = "注册信息填写不完整";
+      msg = "参数填写不完整";
       break;
     case -1002:
-      msg = "注册格式错误";
+      msg = "格式错误";
       break;
     case -1003:
       msg = "用户已经存在";
@@ -17,7 +17,10 @@ function handlerError(code, ctx) {
       msg = "账号或密码错误";
       break;
     case -1006:
-      msg = "无效token，请重新登录";
+      msg = "无效token，请登录";
+      break;
+    case -1007:
+      msg = "数据不存在";
       break;
     default:
       msg = "未知错误";

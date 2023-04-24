@@ -6,11 +6,14 @@ class momentController {
     const content = ctx.request.body.content;
     if (!content) return ctx.app.emit("error", -1001, ctx);
     const res = await create(user_id, content);
+    console.log(user_id);
     ctx.body = {
       code: 200,
       msg: "动态发布成功",
-      content,
-      id: res.insertId,
+      data: {
+        id: res.insertId,
+        content,
+      },
     };
   }
   // 内容列表

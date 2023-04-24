@@ -20,7 +20,7 @@ function handlerError(code, ctx) {
       msg = "无效token，请登录";
       break;
     case -1007:
-      msg = "数据不存在";
+      msg = "删除失败，不能删除别人的数据";
       break;
     default:
       msg = "未知错误";

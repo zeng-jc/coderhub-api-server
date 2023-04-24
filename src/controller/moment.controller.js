@@ -1,4 +1,4 @@
-const { create, remove, list, totalCount } = require("../db/moment.db");
+const { create, remove, list, selfList, totalCount } = require("../db/moment.db");
 
 class momentController {
   async create(ctx, next) {
@@ -21,10 +21,26 @@ class momentController {
     const { offset, limit } = ctx.query;
     if (!offset || !limit) return ctx.app.emit("error", -1001, ctx);
     const count = await totalCount();
-    const res = await list(offset, limit);
+    const res = await list(limit, offset);
     ctx.body = {
       code: 200,
       msg: "列表获取成功",
+      data: {
+        totalCount: count,
+        comments: res,
+      },
+    };
+  }
+  // 个人内容列表
+  async selfList(ctx, next) {
+    const { offset, limit } = ctx.query;
+    const user_id = ctx.params.userId;
+    if (!offset || !limit) return ctx.app.emit("error", -1001, ctx);
+    const count = await totalCount(user_id);
+    const res = await selfList(limit, offset, user_id);
+    ctx.body = {
+      code: 200,
+      msg: "列表个人获取成功",
       data: {
         totalCount: count,
         comments: res,

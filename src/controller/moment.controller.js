@@ -1,4 +1,4 @@
-const { create, remove, list } = require("../db/moment.db");
+const { create, remove, list, totalCount } = require("../db/moment.db");
 
 class momentController {
   async create(ctx, next) {
@@ -20,12 +20,14 @@ class momentController {
   async list(ctx, next) {
     const { offset, limit } = ctx.query;
     if (!offset || !limit) return ctx.app.emit("error", -1001, ctx);
+    const count = await totalCount();
     const res = await list(offset, limit);
     ctx.body = {
       code: 200,
       msg: "列表获取成功",
       data: {
-        list: res,
+        totalCount: count,
+        comments: res,
       },
     };
   }

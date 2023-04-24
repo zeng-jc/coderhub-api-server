@@ -22,6 +22,10 @@ class momentDB {
     const res = await connectPool.execute(statement, [moment_id, user_id]);
     return res[0];
   }
+  async totalCount() {
+    const [res] = await connectPool.execute("select count(*) count from moment;");
+    return res[0].count;
+  }
 }
 
 module.exports = new momentDB();

@@ -1,4 +1,4 @@
-const { create } = require("../db/comment.db");
+const { create, getCommentByMomentId } = require("../db/comment.db");
 
 class commentController {
   async create(ctx, next) {
@@ -11,6 +11,19 @@ class commentController {
       data: {
         id: res.insertId,
         content,
+      },
+    };
+  }
+  // 通过内容id获取评论
+  async getCommentByMomentId(ctx, next) {
+    const { moment_id } = ctx.params;
+    const res = await getCommentByMomentId(moment_id);
+    ctx.body = {
+      code: 200,
+      msg: "通过moment_id，获取评论成功",
+      data: {
+        moment_id: Number(moment_id),
+        comments: res,
       },
     };
   }

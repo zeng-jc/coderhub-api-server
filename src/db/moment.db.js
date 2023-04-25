@@ -17,13 +17,23 @@ class momentDB {
     const [values] = await connectPool.execute(statement, [limit, offset]);
     return values;
   }
+  //  个人内容列表
+  async selfList(limit, offset, user_id) {
+    const statement = `select id,content,likes,createAt
+          from moment where user_id = ? limit ? offset ?;`;
+    const [values] = await connectPool.execute(statement, [user_id, limit, offset]);
+    return values;
+  }
   async remove(moment_id, user_id) {
     const statement = "delete from moment where id = ? && user_id = ?;";
     const res = await connectPool.execute(statement, [moment_id, user_id]);
     return res[0];
   }
-  async totalCount() {
-    const [res] = await connectPool.execute("select count(*) count from moment;");
+  async totalCount(user_id = "%") {
+    const [res] = await connectPool.execute(
+      "select count(*) count from moment where user_id like ?;",
+      [user_id]
+    );
     return res[0].count;
   }
 }

@@ -7,7 +7,7 @@ class momentDB {
     return res[0];
   }
   // 内容列表
-  async list(limit, offset) {
+  async getMomentList(limit, offset) {
     const statement = `select 
       m.id id,m.content content,m.likes likes, m.createAt createAt,
       json_object("id",u.id,"nickname",u.nickname,"avatar",u.avatar,"gender",u.gender) userInfo
@@ -17,8 +17,8 @@ class momentDB {
     const [values] = await connectPool.execute(statement, [limit, offset]);
     return values;
   }
-  //  个人内容列表
-  async selfList(limit, offset, user_id) {
+  //  获取用户个人内容列表
+  async getMomentListByUserId(limit, offset, user_id) {
     const statement = `select id,content,likes,createAt
           from moment where user_id = ? limit ? offset ?;`;
     const [values] = await connectPool.execute(statement, [user_id, limit, offset]);

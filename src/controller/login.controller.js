@@ -33,6 +33,7 @@ class loginController {
       ctx.user = result;
       await next();
     } catch (error) {
+      // 数据库查询也会抛到此处返回
       ctx.app.emit("error", -1006, ctx);
     }
   }

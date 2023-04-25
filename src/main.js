@@ -5,6 +5,7 @@ const handlerError = require("./app/handlerError");
 const userRouter = require("./router/user.router");
 const loginRouter = require("./router/login.router");
 const momentRouter = require("./router/moment.router");
+const commentRouter = require("./router/comment.router");
 
 const app = new Koa();
 // 解析body参数
@@ -19,6 +20,9 @@ app.use(loginRouter.allowedMethods());
 // 注册moment路由
 app.use(momentRouter.routes());
 app.use(momentRouter.allowedMethods());
+// 注册comment路由
+app.use(commentRouter.routes());
+app.use(commentRouter.allowedMethods());
 
 // 错误处理
 app.on("error", handlerError);

@@ -22,6 +22,9 @@ function handlerError(code, ctx) {
     case -1007:
       msg = "删除失败，不能删除别人的数据";
       break;
+    case -2001:
+      msg = "sql错误，操作的数据不存在";
+      break;
     default:
       msg = "未知错误";
   }

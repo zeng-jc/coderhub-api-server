@@ -1,10 +1,20 @@
-const { create, getCommentByMomentId } = require("../db/comment.db");
+const { create, getCommentByMomentId, reply } = require("../db/comment.db");
 
 class commentController {
   async create(ctx, next) {
     const user_id = ctx.user.id;
-    const { moment_id, content } = ctx.request.body;
-    const res = await create(user_id, moment_id, content);
+    const { moment_id, content, comment_id } = ctx.request.body;
+    let res;
+    // 如果有comment_id就是回复评论
+    try {
+      if (comment_id) {
+        res = await reply(user_id, moment_id, content, comment_id);
+      } else {
+        res = await create(user_id, moment_id, content);
+      }
+    } catch (error) {
+      return ctx.app.emit("error", -2001, ctx);
+    }
     ctx.body = {
       code: 200,
       msg: "评论成功",

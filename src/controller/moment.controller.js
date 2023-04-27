@@ -1,10 +1,4 @@
-const {
-  create,
-  remove,
-  getMomentList,
-  getMomentListByUserId,
-  totalCount,
-} = require("../db/moment.db");
+const { create, remove, getMomentList, totalCount, getMomentByID } = require("../db/moment.db");
 
 class momentController {
   async create(ctx, next) {
@@ -22,12 +16,12 @@ class momentController {
       },
     };
   }
-  // 内容列表
+  // 动态列表
   async getMomentList(ctx, next) {
-    const { offset, limit } = ctx.query;
+    const { offset, limit, userid } = ctx.query;
     if (!offset || !limit) return ctx.app.emit("error", -1001, ctx);
     const count = await totalCount();
-    const res = await getMomentList(limit, offset);
+    const res = await getMomentList(limit, offset, userid);
     ctx.body = {
       code: 200,
       msg: "列表获取成功",
@@ -37,19 +31,15 @@ class momentController {
       },
     };
   }
-  // 个人内容列表
-  async getMomentListByUserId(ctx, next) {
-    const { offset, limit } = ctx.query;
-    const user_id = ctx.params.userId;
-    if (!offset || !limit) return ctx.app.emit("error", -1001, ctx);
-    const count = await totalCount(user_id);
-    const res = await getMomentListByUserId(limit, offset, user_id);
+  // 动态详情
+  async getMomentByID(ctx, next) {
+    const momentId = ctx.params.momentId;
+    const res = await getMomentByID(momentId);
     ctx.body = {
       code: 200,
-      msg: "列表个人获取成功",
+      msg: "动态详情获取成功",
       data: {
-        totalCount: count,
-        comments: res,
+        moment: res[0],
       },
     };
   }

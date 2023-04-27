@@ -1,19 +1,15 @@
 const KoaRouter = require("@koa/router");
-const {
-  create,
-  remove,
-  getMomentList,
-  getMomentListByUserId,
-} = require("../controller/moment.controller");
+const { create, remove, getMomentList, getMomentByID } = require("../controller/moment.controller");
 const { isLogin } = require("../controller/login.controller");
 
 const momentRouter = new KoaRouter({ prefix: "/moment" });
 
 momentRouter.post("/", isLogin, create);
-// 首页展示的列表
+// 动态列表
 momentRouter.get("/", getMomentList);
-// 用户个人中心的内容列表
-momentRouter.get("/:userId", isLogin, getMomentListByUserId);
+// 动态详情
+momentRouter.get("/:momentId", getMomentByID);
+// 删除动态
 momentRouter.delete("/:momentId", isLogin, remove);
 
 module.exports = momentRouter;

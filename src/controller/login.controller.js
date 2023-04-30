@@ -21,8 +21,8 @@ class loginController {
         nickname,
         gender,
         avatar,
-        token,
       },
+      token,
     };
   }
   async isLogin(ctx, next) {

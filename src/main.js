@@ -1,4 +1,5 @@
 const Koa = require("koa");
+const cors = require("koa2-cors");
 const bodyParser = require("koa-bodyparser");
 const handlerError = require("./app/handlerError");
 
@@ -8,6 +9,10 @@ const momentRouter = require("./router/moment.router");
 const commentRouter = require("./router/comment.router");
 
 const app = new Koa();
+
+// 解决跨域
+app.use(cors());
+
 // 解析body参数
 app.use(bodyParser());
 

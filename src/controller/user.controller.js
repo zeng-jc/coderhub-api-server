@@ -2,14 +2,15 @@ const userDB = require("../db/user.db");
 
 class userController {
   async create(ctx, next) {
-    const { username, password, nickname, gender } = ctx.request.body;
-    const res = await userDB.create(username, password, nickname, gender);
+    const { username, email, password, nickname, gender } = ctx.request.body;
+    const res = await userDB.create(username, email, password, nickname, gender);
     ctx.body = {
       code: 200,
       msg: "注册成功",
       data: {
         id: res.insertId,
         username,
+        email,
         nickname,
         gender,
       },

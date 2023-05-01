@@ -6,7 +6,7 @@ const PUBLIC_KEY = fs.readFileSync(path.resolve(__dirname, "../app/secretKey/pub
 
 class loginController {
   async login(ctx, next) {
-    const { id, username, nickname, gender, avatar } = ctx.loginUserInfo;
+    const { id, username, email, nickname, gender, avatar } = ctx.loginUserInfo;
     const payload = { id: id, name: username };
     const token = jwt.sign(payload, PRIVATE_KEY, {
       algorithm: "RS256",
@@ -18,6 +18,7 @@ class loginController {
       data: {
         id,
         username,
+        email,
         nickname,
         gender,
         avatar,

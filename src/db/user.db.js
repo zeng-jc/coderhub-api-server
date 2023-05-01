@@ -6,9 +6,14 @@ class UserDB {
     const [values] = await connectPool.execute(statement, [username]);
     return !!values.length;
   }
-  async create(username, password, nickname, gender) {
-    const statement = `insert into user (username,password,nickname,gender) values (?,?,?,?);`;
-    const res = await connectPool.execute(statement, [username, password, nickname, gender]);
+  async getUserByEmail(email) {
+    const statement = `select email from user where email = ?;`;
+    const [values] = await connectPool.execute(statement, [email]);
+    return !!values.length;
+  }
+  async create(username, email, password, nickname, gender) {
+    const statement = `insert into user (username,email,password,nickname,gender) values (?,?,?,?,?);`;
+    const res = await connectPool.execute(statement, [username, email, password, nickname, gender]);
     return res[0];
   }
   async users(query) {

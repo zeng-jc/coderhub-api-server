@@ -2,6 +2,7 @@ const { getUserByName, getUserByEmail } = require("../db/user.db");
 const MD5password = require("../utils/crypto");
 
 class UserMiddleware {
+  // 校验新用户
   async verifyNewUser(ctx, next) {
     // 去除空格
     ctx.request.body.username = ctx.request.body.username.replace(/\s*/g, "");
@@ -11,7 +12,6 @@ class UserMiddleware {
 
     // 获取用户名和密码
     const { username, email, password, nickname, gender } = ctx.request.body;
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     // 判断用户名、密码、昵称、性别是否为空
     if (!(username || email || password || nickname || gender === 1 || gender === 0)) {
       return ctx.app.emit("error", -1001, ctx);

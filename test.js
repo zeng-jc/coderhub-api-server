@@ -1,7 +1,7 @@
 const comments = [
   {
     id: 1,
-    content: "坤坤打球很帅",
+    content: "ikun",
     commentId: null,
     createAt: "2023-04-25T05:06:43.000Z",
     user: {
@@ -21,9 +21,9 @@ const comments = [
   },
   {
     id: 3,
-    content: "坤坤打球很帅",
-    commentId: null,
-    createAt: "2023-04-25T05:12:46.000Z",
+    content: "确实很帅，可以去打nba",
+    commentId: 2,
+    createAt: "2023-04-25T09:38:10.000Z",
     user: {
       id: 2,
       nickname: "ikun",
@@ -31,18 +31,8 @@ const comments = [
   },
   {
     id: 4,
-    content: "坤坤打球很帅",
-    commentId: null,
-    createAt: "2023-04-25T09:06:39.000Z",
-    user: {
-      id: 2,
-      nickname: "ikun",
-    },
-  },
-  {
-    id: 5,
-    content: "坤坤",
-    commentId: 2,
+    content: "我也觉得",
+    commentId: 3,
     createAt: "2023-04-25T09:38:10.000Z",
     user: {
       id: 2,
@@ -51,14 +41,25 @@ const comments = [
   },
 ];
 
-comments.forEach((item1, index1) => {
-  if (typeof item1.commentId === "number") {
-    comments.forEach((item2, index) => {
-      if (item2.id === item1.commentId) {
-        comments[index].replies = [comments[index1]];
-      }
-    });
-  }
-});
+function commentListToTree(list, rootNode) {
+  const arr = [];
+  list.forEach(item => {
+    if (item.commentId === rootNode) {
+      arr.push(item);
+      const replies = commentListToTree(list, item.id); //子节点
+      return replies.length && (item.replies = item.replies);
+    }
+  });
+  return arr;
+}
 
-console.log(comments);
+function listToTree(list) {
+  let info = list.reduce((map, node) => ((map[node.id] = node), (node.replies = []), map), {});
+  return list.filter(node => {
+    info[node.commentId] && info[node.commentId].replies.push(node);
+    return !node.commentId;
+  });
+}
+
+// console.log(commentListToTree(comments, null));
+console.log(listToTree(comments));

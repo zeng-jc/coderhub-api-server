@@ -20,7 +20,8 @@ class momentDB {
   }
   // 动态详情
   async getMomentByID(momentId) {
-    const statement = `select m.id id,m.content content,m.imgs imgs,m.likes likes, m.createAt createAt, 
+    const statement = `select 
+    m.id id,m.content content,m.imgs imgs,m.likes likes, m.createAt createAt, 
     JSON_OBJECT("id",u.id,"username",u.username,"nickname",u.nickname,"avatar",u.avatar,"gender",u.gender,"createAt",u.createAt) user
     from moment m left join user u on m.user_id = u.id
     where m.id = ?;`;

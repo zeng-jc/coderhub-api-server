@@ -5,6 +5,6 @@ const { create, users } = require("../controller/user.controller");
 const { isLogin } = require("../controller/login.controller");
 
 userRouter.post("/", verifyNewUser, handlerPassowrd, create);
-userRouter.get("/", isLogin, users);
+userRouter.get("/", users);
 
 module.exports = userRouter;

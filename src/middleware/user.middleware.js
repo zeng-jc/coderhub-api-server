@@ -11,9 +11,9 @@ class UserMiddleware {
     ctx.request.body.nickname = ctx.request.body.nickname.replace(/\s*/g, "");
 
     // 获取用户名和密码
-    const { username, email, password, nickname, gender } = ctx.request.body;
-    // 判断用户名、密码、昵称、性别是否为空
-    if (!(username || email || password || nickname || gender === 1 || gender === 0)) {
+    const { username, email, password, nickname } = ctx.request.body;
+    // 判断用户名、邮箱、密码、昵称是否为空
+    if (!(username || email || password || nickname)) {
       return ctx.app.emit("error", -1001, ctx);
     }
 

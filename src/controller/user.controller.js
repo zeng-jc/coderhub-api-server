@@ -2,8 +2,8 @@ const userDB = require("../db/user.db");
 
 class userController {
   async create(ctx, next) {
-    const { username, email, password, nickname, gender } = ctx.request.body;
-    const res = await userDB.create(username, email, password, nickname, gender);
+    const { username, email, password, nickname } = ctx.request.body;
+    const res = await userDB.create(username, email, password, nickname);
     ctx.body = {
       code: 200,
       msg: "注册成功",
@@ -12,7 +12,6 @@ class userController {
         username,
         email,
         nickname,
-        gender,
       },
     };
   }

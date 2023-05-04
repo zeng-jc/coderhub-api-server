@@ -4,25 +4,21 @@ const MD5password = require("../utils/crypto");
 class UserMiddleware {
   // 校验新用户
   async verifyNewUser(ctx, next) {
-    // 去除空格
-    ctx.request.body.username = ctx.request.body.username.replace(/\s*/g, "");
-    ctx.request.body.email = ctx.request.body.email.replace(/\s*/g, "");
-    ctx.request.body.password = ctx.request.body.password.replace(/\s*/g, "");
-    ctx.request.body.nickname = ctx.request.body.nickname.replace(/\s*/g, "");
-
     // 获取用户名和密码
     const { username, email, password, nickname } = ctx.request.body;
     // 判断用户名、邮箱、密码、昵称是否为空
-    if (!(username || email || password || nickname)) {
+    if (!username || !email || !password || !nickname) {
       return ctx.app.emit("error", -1001, ctx);
     }
-
     // 判断格式
     if (
+      // 用户名：长度为6-25，只能包含大小写字母、数字、下划线
       !/^[A-Za-z0-9_]{6,25}$/.test(username) ||
-      password.length < 6 ||
-      password.length > 30 ||
-      nickname.length > 10 ||
+      // 密码：最少6位，至少包含1个大写，1个小写，1个数字，1个特殊字符
+      !/^\S*(?=\S{6,})(?=\S*\d)(?=\S*[A-Z])(?=\S*[a-z])(?=\S*[!@#$%^&*? ])\S*$/.test(password) ||
+      // 昵称：长度1-10，不能包含空格
+      !/^[^\s]{1,10}$/.test(nickname) ||
+      // 邮箱
       !/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
         email
       )

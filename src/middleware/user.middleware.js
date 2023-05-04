@@ -17,10 +17,11 @@ class UserMiddleware {
       return ctx.app.emit("error", -1001, ctx);
     }
 
-    // 判断长度
+    // 判断格式
     if (
-      username.length < 6 ||
+      !/^[A-Za-z0-9_]{6,25}$/.test(username) ||
       password.length < 6 ||
+      password.length > 30 ||
       nickname.length > 10 ||
       !/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
         email
@@ -39,8 +40,10 @@ class UserMiddleware {
     if (isExistEmail) {
       return ctx.app.emit("error", -1008, ctx);
     }
+
     await next();
   }
+
   async handlerPassowrd(ctx, next) {
     ctx.request.body.password = MD5password(ctx.request.body.password);
     await next();

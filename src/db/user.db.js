@@ -12,7 +12,7 @@ class UserDB {
     return !!values.length;
   }
   async create(username, email, password, nickname) {
-    const statement = `insert into user (username,email,password,nickname) values (?,?,?,?,?);`;
+    const statement = `insert into user (username,email,password,nickname) values (?,?,?,?);`;
     const res = await connectPool.execute(statement, [username, email, password, nickname]);
     return res[0];
   }

@@ -27,7 +27,7 @@ class momentController {
       msg: "列表获取成功",
       data: {
         totalCount: count,
-        comments: res,
+        moments: res,
       },
     };
   }

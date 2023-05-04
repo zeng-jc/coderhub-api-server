@@ -15,7 +15,7 @@ class momentDB {
       from moment m left join user u 
       on m.user_id = u.id where u.id like ?
       limit ? offset ?;`;
-    const [values] = await connectPool.execute(statement, [limit, offset, userid]);
+    const [values] = await connectPool.execute(statement, [userid, limit, offset]);
     return values;
   }
   // 动态详情

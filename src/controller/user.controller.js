@@ -25,6 +25,22 @@ class userController {
       },
     };
   }
+  async getEmial(ctx, next) {
+    const res = await userDB.getUserByEmail(ctx.params.email);
+    if (res) return ctx.app.emit("error", -1008, ctx);
+    ctx.body = {
+      code: 200,
+      msg: "邮箱未注册",
+    };
+  }
+  async getUsername(ctx, next) {
+    const res = await userDB.getUserByName(ctx.params.username);
+    if (res) return ctx.app.emit("error", -1003, ctx);
+    ctx.body = {
+      code: 200,
+      msg: "用户未注册",
+    };
+  }
 }
 
 module.exports = new userController();

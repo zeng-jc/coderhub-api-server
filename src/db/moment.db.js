@@ -22,6 +22,7 @@ class momentDB {
   async getMomentByID(momentId) {
     const statement = `select 
     m.id id,m.content content,m.imgs imgs,m.likes likes, m.createAt createAt, 
+    (select count(*) from comment where moment_id = m.id) commentCount,
     JSON_OBJECT("id",u.id,"username",u.username,"nickname",u.nickname,"avatar",u.avatar,"gender",u.gender,"createAt",u.createAt) user
     from moment m left join user u on m.user_id = u.id
     where m.id = ?;`;

@@ -4,6 +4,11 @@ class commentController {
   async create(ctx, next) {
     const user_id = ctx.user.id;
     const { moment_id, content, comment_id } = ctx.request.body;
+    try {
+      if (!moment_id || /\s+/g.test(content)) return ctx.app.emit("error", -1002, ctx);
+    } catch (error) {
+      return ctx.app.emit("error", -2002, ctx);
+    }
     let res;
     // 如果有comment_id就是回复评论
     try {

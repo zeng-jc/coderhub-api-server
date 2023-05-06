@@ -28,6 +28,9 @@ function handlerError(code, ctx) {
     case -2001:
       msg = "sql错误，操作的数据不存在";
       break;
+    case -2002:
+      msg = "数据异常";
+      break;
     default:
       msg = "未知错误";
   }

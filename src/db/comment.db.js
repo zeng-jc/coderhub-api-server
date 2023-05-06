@@ -19,7 +19,8 @@ class commentDB {
       JSON_OBJECT("id",u.id ,"nickname",u.nickname) user
       from comment c left join user u 
       on c.user_id = u.id 
-      where moment_id = ?;`;
+      where moment_id = ?
+      order by c.id desc;`;
     const [values] = await connectPool.execute(statement, [moment_id]);
     return values;
   }

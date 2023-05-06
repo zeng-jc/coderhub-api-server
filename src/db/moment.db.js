@@ -13,7 +13,8 @@ class momentDB {
       json_object("id",u.id,"nickname",u.nickname,"avatar",u.avatar,"gender",u.gender) userInfo,
       (select count(*) from comment where moment_id = m.id) commentCount
       from moment m left join user u 
-      on m.user_id = u.id where u.id like ?
+      on m.user_id = u.id where u.id like ? 
+      order by m.id desc
       limit ? offset ?;`;
     const [values] = await connectPool.execute(statement, [userid, limit, offset]);
     return values;

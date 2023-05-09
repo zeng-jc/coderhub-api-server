@@ -35,10 +35,10 @@ class momentDB {
     const res = await connectPool.execute(statement, [moment_id, user_id]);
     return res[0];
   }
-  async totalCount(user_id = "%") {
+  async totalCount(user_username = "%") {
     const [res] = await connectPool.execute(
-      "select count(*) count from moment where user_id like ?;",
-      [user_id]
+      "select count(*) count from moment where user_username like ?;",
+      [user_username]
     );
     return res[0].count;
   }

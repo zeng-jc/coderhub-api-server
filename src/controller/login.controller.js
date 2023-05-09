@@ -30,6 +30,7 @@ class loginController {
     const token = ctx.header.authorization;
     if (!token) return ctx.app.emit("error", -1006, ctx);
     try {
+      // result的数据中包含payload中的数据
       const result = jwt.verify(token.replace("Bearer ", ""), PUBLIC_KEY);
       ctx.user = result;
       await next();

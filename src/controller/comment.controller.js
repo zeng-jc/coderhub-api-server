@@ -5,7 +5,8 @@ class commentController {
     const user_id = ctx.user.id;
     const { moment_id, content, comment_id } = ctx.request.body;
     try {
-      if (!moment_id || /\s+/g.test(content)) return ctx.app.emit("error", -1002, ctx);
+      if (!moment_id || !content.replace(/^\s+|\s+$/g, ""))
+        return ctx.app.emit("error", -1002, ctx);
     } catch (error) {
       return ctx.app.emit("error", -2002, ctx);
     }

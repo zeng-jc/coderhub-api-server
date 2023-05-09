@@ -41,6 +41,17 @@ class userController {
       msg: "用户未注册",
     };
   }
+  async getUserByUsername(ctx, next) {
+    const username = ctx.request.params.username;
+    const value = await userDB.getUserByUsername(username);
+    ctx.body = {
+      code: 200,
+      msg: "获取用户成功",
+      data: {
+        user: value,
+      },
+    };
+  }
 }
 
 module.exports = new userController();

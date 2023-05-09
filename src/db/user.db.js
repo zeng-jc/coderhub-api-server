@@ -18,9 +18,16 @@ class UserDB {
   }
   async users(query) {
     const { limit, offset } = query;
-    const statement = "select * from user limit ? offset ?;";
+    const statement =
+      "select id,nickname,username,avatar,gender,createAt,email from user limit ? offset ?;";
     const [values] = await connectPool.execute(statement, [limit, offset]);
     return values;
+  }
+  async getUserByUsername(username) {
+    const statement = `select id,nickname,username, avatar, gender,email, createAt
+      from user where username = 11111111;`;
+    const [values] = await connectPool.execute(statement, [username]);
+    return values[0];
   }
 }
 

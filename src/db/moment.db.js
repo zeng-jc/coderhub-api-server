@@ -7,16 +7,16 @@ class momentDB {
     return res[0];
   }
   // 动态列表
-  async getMomentList(limit, offset, userid = "%") {
+  async getMomentList(limit, offset, username = "%") {
     const statement = `select 
       m.id id,m.content content,m.likes likes, m.createAt createAt,
       json_object("id",u.id,"nickname",u.nickname,"avatar",u.avatar,"gender",u.gender) userInfo,
       (select count(*) from comment where moment_id = m.id) commentCount
       from moment m left join user u 
-      on m.user_id = u.id where u.id like ? 
+      on m.user_id = u.id where u.username like ? 
       order by m.id desc
       limit ? offset ?;`;
-    const [values] = await connectPool.execute(statement, [userid, limit, offset]);
+    const [values] = await connectPool.execute(statement, [username, limit, offset]);
     return values;
   }
   // 动态详情

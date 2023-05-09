@@ -18,10 +18,10 @@ class momentController {
   }
   // 动态列表
   async getMomentList(ctx, next) {
-    const { offset, limit, userid } = ctx.query;
+    const { offset, limit, username } = ctx.query;
     if (!offset || !limit) return ctx.app.emit("error", -1001, ctx);
     const count = await totalCount();
-    const res = await getMomentList(limit, offset, userid);
+    const res = await getMomentList(limit, offset, username);
     ctx.body = {
       code: 200,
       msg: "列表获取成功",

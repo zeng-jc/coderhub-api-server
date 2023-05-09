@@ -25,7 +25,7 @@ class UserDB {
   }
   async getUserByUsername(username) {
     const statement = `select id,nickname,username, avatar, gender,email, createAt
-      from user where username = 11111111;`;
+      from user where username = ?;`;
     const [values] = await connectPool.execute(statement, [username]);
     return values[0];
   }

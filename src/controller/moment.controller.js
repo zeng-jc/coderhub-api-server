@@ -20,7 +20,7 @@ class momentController {
   async getMomentList(ctx, next) {
     const { offset, limit, username } = ctx.query;
     if (!offset || !limit) return ctx.app.emit("error", -1001, ctx);
-    const count = await totalCount();
+    const count = await totalCount(username);
     const res = await getMomentList(limit, offset, username);
     ctx.body = {
       code: 200,

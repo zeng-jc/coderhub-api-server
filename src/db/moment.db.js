@@ -10,7 +10,7 @@ class momentDB {
   async getMomentList(limit, offset, username = "%") {
     const statement = `select 
       m.id id,m.content content,m.likes likes, m.createAt createAt,
-      json_object("id",u.id,"nickname",u.nickname,"avatar",u.avatar,"gender",u.gender) userInfo,
+      json_object("id",u.id,"username",u.username,"nickname",u.nickname,"avatar",u.avatar,"gender",u.gender) userInfo,
       (select count(*) from comment where moment_id = m.id) commentCount
       from moment m left join user u 
       on m.user_id = u.id where u.username like ? 

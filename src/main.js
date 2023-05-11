@@ -4,7 +4,7 @@ const bodyParser = require("koa-bodyparser");
 const handlerError = require("./app/handlerError");
 
 const userRouter = require("./router/user.router");
-const loginRouter = require("./router/login.router");
+const authRouter = require("./router/auth.router");
 const momentRouter = require("./router/moment.router");
 const commentRouter = require("./router/comment.router");
 
@@ -19,9 +19,9 @@ app.use(bodyParser());
 // 注册user路由
 app.use(userRouter.routes());
 app.use(userRouter.allowedMethods());
-// 注册login路由
-app.use(loginRouter.routes());
-app.use(loginRouter.allowedMethods());
+// 注册auth路由
+app.use(authRouter.routes());
+app.use(authRouter.allowedMethods());
 // 注册moment路由
 app.use(momentRouter.routes());
 app.use(momentRouter.allowedMethods());

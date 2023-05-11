@@ -1,6 +1,6 @@
 const connectPool = require("../app/connectPool");
 
-class loginDB {
+class authDB {
   async verifyLogin(UsernameEmail, password) {
     let statement;
     if (UsernameEmail.includes("@")) {
@@ -15,4 +15,4 @@ class loginDB {
   }
 }
 
-module.exports = new loginDB();
+module.exports = new authDB();

@@ -2,21 +2,20 @@ const { create, getCommentByMomentId, reply } = require("../db/comment.db");
 
 class commentController {
   async create(ctx, next) {
-    const user_id = ctx.user.id;
-    const { moment_id, content, comment_id } = ctx.request.body;
+    const userId = ctx.user.id;
+    const { momentId, content, commentId } = ctx.request.body;
     try {
-      if (!moment_id || !content.replace(/^\s+|\s+$/g, ""))
-        return ctx.app.emit("error", -1002, ctx);
+      if (!momentId || !content.replace(/^\s+|\s+$/g, "")) return ctx.app.emit("error", -1002, ctx);
     } catch (error) {
       return ctx.app.emit("error", -2002, ctx);
     }
     let res;
-    // 如果有comment_id就是回复评论
+    // 如果有commentId就是回复评论
     try {
-      if (comment_id) {
-        res = await reply(user_id, moment_id, content, comment_id);
+      if (commentId) {
+        res = await reply(userId, momentId, content, commentId);
       } else {
-        res = await create(user_id, moment_id, content);
+        res = await create(userId, momentId, content);
       }
     } catch (error) {
       return ctx.app.emit("error", -2001, ctx);
@@ -32,13 +31,13 @@ class commentController {
   }
   // 通过内容id获取评论
   async getCommentByMomentId(ctx, next) {
-    const { moment_id } = ctx.params;
-    const res = await getCommentByMomentId(moment_id);
+    const { momentId } = ctx.params;
+    const res = await getCommentByMomentId(momentId);
     ctx.body = {
       code: 200,
-      msg: "通过moment_id，获取评论成功",
+      msg: "通过momentId，获取评论成功",
       data: {
-        moment_id: Number(moment_id),
+        momentId: Number(momentId),
         comments: res,
       },
     };

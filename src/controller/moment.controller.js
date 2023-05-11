@@ -46,7 +46,7 @@ class momentController {
     const moment_id = ctx.params.momentId;
     const user_id = ctx.user.id;
     const res = await remove(moment_id, user_id);
-    if (res.affectedRows === 0) return ctx.app.emit("error", -1007, ctx);
+    if (res.affectedRows === 0) return ctx.app.emit("error", -2001, ctx);
     ctx.body = {
       code: 200,
       msg: "删除成功",

@@ -1,4 +1,4 @@
-const { verifyLogin } = require("../db/auth.db");
+const { verifyLogin, checkResource } = require("../db/auth.db");
 const MD5password = require("../utils/crypto");
 const jwt = require("jsonwebtoken");
 const path = require("path");
@@ -6,7 +6,7 @@ const fs = require("fs");
 const PUBLIC_KEY = fs.readFileSync(path.resolve(__dirname, "../app/secretKey/public.key"));
 
 class authMiddleware {
-  // 验证登录的中间件
+  // 1.验证用户登录信息的中间件
   async verifyLogin(ctx, next) {
     // username也可以是邮箱
     const { username, password } = ctx.request.body;
@@ -21,7 +21,7 @@ class authMiddleware {
     ctx.loginUserInfo = res[0];
     await next();
   }
-  // 验证是否登录中间件
+  // 2.验证是否登录中间件
   async verifyIsLogin(ctx, next) {
     const token = ctx.header.authorization;
     if (!token) return ctx.app.emit("error", -1006, ctx);
@@ -33,6 +33,25 @@ class authMiddleware {
     } catch (error) {
       // 数据库查询也会抛到此处返回
       ctx.app.emit("error", -1006, ctx);
+    }
+  }
+  // 3.验证用户权限中间件
+  async verifyPermission(ctx, next) {
+    // 3.1. 获取资源的key
+    const [resourceKey] = Object.keys(ctx.params);
+    // 3.2. 去除key的id，拿到tableName
+    const tableName = resourceKey.replace("Id", "");
+    // 3.3. 继续通过resourceKey拿到资源id
+    const resourceId = ctx.params[resourceKey];
+    // 3.4. 用户id
+    const userId = ctx.user.id;
+    try {
+      // 检查该资源是否属于该用户
+      const isPermission = checkResource(tableName, resourceId, userId);
+      if (!isPermission) new Error();
+      await next();
+    } catch (error) {
+      ctx.app.emit("error", -1007, ctx);
     }
   }
 }

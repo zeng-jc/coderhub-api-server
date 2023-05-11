@@ -20,13 +20,13 @@ function handlerError(code, ctx) {
       msg = "无效token，请登录";
       break;
     case -1007:
-      msg = "删除失败，不能删除别人的数据";
+      msg = "删除失败，权限不够";
       break;
     case -1008:
       msg = "邮箱已经被注册";
       break;
     case -2001:
-      msg = "sql错误，操作的数据不存在";
+      msg = "操作的数据不存在";
       break;
     case -2002:
       msg = "数据异常";

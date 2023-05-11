@@ -1,6 +1,6 @@
 const KoaRouter = require("@koa/router");
 const { create, remove, getMomentList, getMomentByID } = require("../controller/moment.controller");
-const { verifyIsLogin } = require("../middleware/auth.middleware");
+const { verifyIsLogin, verifyPermission } = require("../middleware/auth.middleware");
 
 const momentRouter = new KoaRouter({ prefix: "/moment" });
 
@@ -11,6 +11,6 @@ momentRouter.get("/", getMomentList);
 // 动态详情
 momentRouter.get("/:momentId", getMomentByID);
 // 删除动态
-momentRouter.delete("/:momentId", verifyIsLogin, remove);
+momentRouter.delete("/:momentId", verifyIsLogin, verifyPermission, remove);
 
 module.exports = momentRouter;

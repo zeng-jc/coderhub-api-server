@@ -24,6 +24,16 @@ class commentDB {
     const [values] = await connectPool.execute(statement, [moment_id]);
     return values;
   }
+  async remove(commentId) {
+    const statement = `with recursive comment_tree as(
+      select id, comment_id from comment where id = ?
+      union all
+      select c.id, c.comment_id from comment c
+      join comment_tree ct on ct.id = c.comment_id
+    )delete from comment WHERE id IN (SELECT id FROM comment_tree);`;
+    const res = await connectPool.execute(statement, [commentId]);
+    return res[0];
+  }
 }
 
 module.exports = new commentDB();

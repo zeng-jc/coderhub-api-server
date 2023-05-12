@@ -1,4 +1,4 @@
-const { create, getCommentByMomentId, reply } = require("../db/comment.db");
+const { create, reply, getCommentByMomentId, remove } = require("../db/comment.db");
 
 class commentController {
   async create(ctx, next) {
@@ -40,6 +40,15 @@ class commentController {
         momentId: Number(momentId),
         comments: res,
       },
+    };
+  }
+  async remove(ctx, next) {
+    const commentId = ctx.params.commentId;
+    const res = await remove(commentId);
+    if (res.affectedRows === 0) return ctx.app.emit("error", -2001, ctx);
+    ctx.body = {
+      code: 200,
+      msg: "评论删除成功",
     };
   }
 }

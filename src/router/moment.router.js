@@ -10,7 +10,7 @@ momentRouter.post("/", verifyIsLogin, create);
 momentRouter.get("/", getMomentList);
 // 动态详情
 momentRouter.get("/:momentId", getMomentByID);
-// 删除动态
+// 删除动态（params参数必须是：表名+Id）
 momentRouter.delete("/:momentId", verifyIsLogin, verifyPermission, remove);
 
 module.exports = momentRouter;

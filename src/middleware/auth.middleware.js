@@ -8,15 +8,15 @@ const PUBLIC_KEY = fs.readFileSync(path.resolve(__dirname, "../app/secretKey/pub
 class authMiddleware {
   // 1.验证用户登录信息的中间件
   async verifyLogin(ctx, next) {
-    // username也可以是邮箱
-    const { username, password } = ctx.request.body;
+    // 只能通过邮箱登录
+    const { email, password } = ctx.request.body;
     // 判断账号密码是否为空
-    if (!username || !password) return ctx.app.emit("error", -1004, ctx);
+    if (!email || !password) return ctx.app.emit("error", -1004, ctx);
     // 格式判断
-    if (username.length < 6 || username.length > 255 || password.length > 25) {
+    if (email.length < 6 || email.length > 255 || password.length > 25) {
       return ctx.app.emit("error", -1002, ctx);
     }
-    const res = await verifyLogin(username, MD5password(password));
+    const res = await verifyLogin(email, MD5password(password));
     if (!res.length) return ctx.app.emit("error", -1005, ctx);
     ctx.loginUserInfo = res[0];
     await next();

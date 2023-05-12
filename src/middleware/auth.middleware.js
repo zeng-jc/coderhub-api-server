@@ -32,7 +32,7 @@ class authMiddleware {
       await next();
     } catch (error) {
       // 数据库查询也会抛到此处返回
-      ctx.app.emit("error", -1006, ctx);
+      return ctx.app.emit("error", -1006, ctx);
     }
   }
   // 3.验证用户权限中间件
@@ -45,14 +45,10 @@ class authMiddleware {
     const resourceId = ctx.params[resourceKey];
     // 3.4. 用户id
     const userId = ctx.user.id;
-    try {
-      // 检查该资源是否属于该用户
-      const isPermission = checkResource(tableName, resourceId, userId);
-      if (!isPermission) new Error();
-      await next();
-    } catch (error) {
-      ctx.app.emit("error", -1007, ctx);
-    }
+    // 检查该资源是否属于该用户
+    const isPermission = await checkResource(tableName, resourceId, userId);
+    if (!isPermission) return ctx.app.emit("error", -1007, ctx);
+    await next();
   }
 }
 

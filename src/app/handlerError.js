@@ -31,6 +31,9 @@ function handlerError(code, ctx) {
     case -2002:
       msg = "数据异常";
       break;
+    case -3001:
+      msg = "邮箱发送失败";
+      break;
     default:
       msg = "未知错误";
   }

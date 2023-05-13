@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const path = require("path");
 const fs = require("fs");
 const PRIVATE_KEY = fs.readFileSync(path.resolve(__dirname, "../app/secretKey/private.key"));
+const sendEmail = require("../app/sendEmail");
 
 class authController {
   async login(ctx, next) {
@@ -25,6 +26,20 @@ class authController {
       },
       token,
     };
+  }
+  async postEmail(ctx, next) {
+    const email = ctx.request.body.email;
+    if (!email) return ctx.app.emit("error", -1001, ctx);
+    try {
+      const res = await sendEmail(123456, "2356924146@qq.com");
+      console.log("邮件发送：", res);
+      ctx.body = {
+        code: 200,
+        msg: "邮件发送成功",
+      };
+    } catch (error) {
+      ctx.app.emit("error", -3001, ctx);
+    }
   }
 }
 

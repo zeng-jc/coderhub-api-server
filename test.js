@@ -1,3 +1,21 @@
+const Router = require("koa-router");
+const svgCaptcha = require("svg-captcha");
+
+const router = new Router();
+
+router.get("/captcha", async (ctx, next) => {
+  const captcha = svgCaptcha.create({
+    size: 6, // 验证码位数
+    noise: 4, // 干扰线条数
+    color: true, // 验证码是否有颜色，默认为false黑白
+    ignoreChars: "0o1i", // 排除某些字符
+    background: "#f4f4f4", // 验证码背景颜色
+  });
+  ctx.session.captcha = captcha.text; // 将验证码存入 session
+  ctx.response.type = "image/svg+xml";
+  ctx.body = captcha.data;
+});
+
 const comments = [
   {
     id: 1,

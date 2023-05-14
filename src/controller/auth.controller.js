@@ -31,8 +31,9 @@ class authController {
   async postEmail(ctx, next) {
     const email = ctx.request.body.email;
     if (!email) return ctx.app.emit("error", -1001, ctx);
+    const verifyCode = getRandomInt(100000, 999999);
     try {
-      const res = await sendEmail(getRandomInt(100000, 999999), "2356924146@qq.com");
+      const res = await sendEmail(verifyCode, email);
       console.log("邮件发送：", res);
       ctx.body = {
         code: 200,

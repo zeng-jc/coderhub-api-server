@@ -35,6 +35,7 @@ class authController {
     const verifyCode = getRandomInt(100000, 999999);
     try {
       // 2.发送邮件
+      // 判断邮箱是否存在
       const res = await sendEmail(verifyCode, email);
       console.log("邮件发送：", res);
       ctx.body = {

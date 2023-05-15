@@ -43,10 +43,11 @@ class authController {
       };
       // 3.设置验证码有效期为 1 分钟
       const expirationTime = 1000 * 60;
-      // 4.验证码,邮箱,过期时间存入session中
-      ctx.session.verifyCode = verifyCode;
-      ctx.session.email = email;
-      ctx.session.verifyCodeExpiredTime = new Date().getTime() + expirationTime;
+      // 4.邮箱是唯一的,可以根据邮箱把验证码和过期时间存入session中
+      ctx.session[email] = {
+        verifyCode,
+        verifyCodeExpiredTime: new Date().getTime() + expirationTime,
+      };
     } catch (error) {
       ctx.app.emit("error", -3001, ctx);
     }

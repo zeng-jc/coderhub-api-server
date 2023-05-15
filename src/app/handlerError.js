@@ -40,6 +40,10 @@ function handlerError(code, ctx) {
     case -3003:
       msg = "验证码已过期";
       break;
+    case -3004:
+      msg = "邮箱错误";
+      break;
+
     default:
       msg = "未知错误";
   }

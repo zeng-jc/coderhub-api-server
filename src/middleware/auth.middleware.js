@@ -56,15 +56,19 @@ class authMiddleware {
     const { email, code } = ctx.request.body;
     // 2.邮箱和验证码不能为空
     if (!email || !code) return ctx.app.emit("error", -1001, ctx);
-    // 3.判断验证码是否过期
-    if (new Date().getTime() > ctx.session.verifyCodeExpiredTime)
+    // 3.session是否有对应该邮箱的验证码和过期时间
+    if (!ctx.session[email]) return ctx.app.emit("error", -3004, ctx);
+    // 4.判断验证码是否过期
+    if (new Date().getTime() > ctx.session[email].verifyCodeExpiredTime)
       return ctx.app.emit("error", -3003, ctx);
-    // 4.判断code是否有效
-    if (!(ctx.session.verifyCode + "" === code + "") || !(ctx.session.email === email)) {
+    // 5.判断code是否有效
+    if (!(ctx.session[email].verifyCode + "" === code + "")) {
       return ctx.app.emit("error", -3002, ctx);
     }
     const res = await loginVerifyCode(email);
     if (!res.length) return ctx.app.emit("error", -2001, ctx);
+    // 6.删除session中本次邮箱的验证信息,释放内存
+    delete ctx.session[email];
     ctx.loginUserInfo = res[0];
     await next();
   }

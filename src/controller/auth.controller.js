@@ -28,7 +28,7 @@ class authController {
       token,
     };
   }
-  async postEmail(ctx, next) {
+  async sendEmail(ctx, next) {
     const email = ctx.request.body.email;
     if (!email) return ctx.app.emit("error", -1001, ctx);
     // 1.生成验证码

@@ -1,4 +1,4 @@
-const { verifyLogin, checkResource } = require("../db/auth.db");
+const { verifyLogin, checkResource, loginVerifyCode } = require("../db/auth.db");
 const MD5password = require("../utils/crypto");
 const jwt = require("jsonwebtoken");
 const path = require("path");
@@ -48,6 +48,24 @@ class authMiddleware {
     // 检查该资源是否属于该用户
     const isPermission = await checkResource(tableName, resourceId, userId);
     if (!isPermission) return ctx.app.emit("error", -1007, ctx);
+    await next();
+  }
+  // 4.验证码登录中间件
+  async loginVerifyCode(ctx, next) {
+    // 1.获取用户传输过来的邮箱和验证码
+    const { email, code } = ctx.request.body;
+    // 2.邮箱和验证码不能为空
+    if (!email || !code) return ctx.app.emit("error", -1001, ctx);
+    // 3.判断验证码是否过期
+    if (new Date().getTime() > ctx.session.verifyCodeExpiredTime)
+      return ctx.app.emit("error", -3003, ctx);
+    // 4.判断code是否有效
+    if (!(ctx.session.verifyCode + "" === code + "") || !(ctx.session.email === email)) {
+      return ctx.app.emit("error", -3002, ctx);
+    }
+    const res = await loginVerifyCode(email);
+    if (!res.length) return ctx.app.emit("error", -2001, ctx);
+    ctx.loginUserInfo = res[0];
     await next();
   }
 }

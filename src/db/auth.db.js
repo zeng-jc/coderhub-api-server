@@ -14,6 +14,14 @@ class authDB {
     const [res] = await connectPool.execute(statement, [resourceId, userId]);
     return !!res.length;
   }
+  // 1.验证用户登录信息的数据库操作
+  async loginVerifyCode(email) {
+    console.log(email);
+    const statement = `select id,username,email,nickname,avatar,gender,createAt from user
+       where email = ?`;
+    const [values] = await connectPool.execute(statement, [email]);
+    return values;
+  }
 }
 
 module.exports = new authDB();

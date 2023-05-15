@@ -7,11 +7,15 @@ const userRouter = require("./router/user.router");
 const authRouter = require("./router/auth.router");
 const momentRouter = require("./router/moment.router");
 const commentRouter = require("./router/comment.router");
-
+const koaSession = require("koa-session");
 const app = new Koa();
 
 // 解决跨域
 app.use(cors());
+
+// 使用 koa-session 中间件
+app.keys = ["some secret key"];
+app.use(koaSession(app));
 
 // 解析body参数
 app.use(bodyParser());

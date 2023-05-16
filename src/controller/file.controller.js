@@ -1,4 +1,5 @@
-const { avatarCreate } = require("../db/file.db");
+const { avatarCreate, getAvatarByUserId } = require("../db/file.db");
+const fs = require("fs");
 
 class fileController {
   async avatarCreate(ctx, next) {
@@ -7,6 +8,14 @@ class fileController {
       code: 200,
       msg: "头像上传成功",
     };
+  }
+  async getAvatarByUserId(ctx, next) {
+    const user_id = ctx.params.userId;
+    const { filename, mimetype } = await getAvatarByUserId(user_id);
+    // 指定返回的数据类型
+    ctx.type = mimetype;
+    // 路径是相对于项目的启动目录
+    ctx.body = fs.createReadStream(`./upload/avatar/${filename}`);
   }
 }
 

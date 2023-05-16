@@ -29,6 +29,11 @@ class fileDB {
     ]);
     return res[0];
   }
+  async getAvatarByUserId(user_id) {
+    const statement = `select filename,mimetype from avatar where user_id = ?`;
+    const [values] = await connectionPool.execute(statement, [user_id]);
+    return values[0];
+  }
 }
 
 module.exports = new fileDB();

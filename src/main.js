@@ -8,6 +8,7 @@ const authRouter = require("./router/auth.router");
 const momentRouter = require("./router/moment.router");
 const commentRouter = require("./router/comment.router");
 const koaSession = require("koa-session");
+const fileRrouter = require("./router/file.router");
 const app = new Koa();
 
 // 解决跨域
@@ -32,6 +33,9 @@ app.use(momentRouter.allowedMethods());
 // 注册comment路由
 app.use(commentRouter.routes());
 app.use(commentRouter.allowedMethods());
+// 注册file路由
+app.use(fileRrouter.routes());
+app.use(fileRrouter.allowedMethods());
 
 // 错误处理
 app.on("error", handlerError);

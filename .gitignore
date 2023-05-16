@@ -32,3 +32,6 @@ coverage
 
 # 忽略发送邮箱的配置
 /src/app/sendEmail/config.js
+
+# 互虐upload/avatar中所有有文件
+/upload/avatar/**

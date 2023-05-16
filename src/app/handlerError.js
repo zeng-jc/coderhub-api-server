@@ -20,7 +20,7 @@ function handlerError(code, ctx) {
       msg = "无效token，请登录";
       break;
     case -1007:
-      msg = "删除失败，权限不够";
+      msg = "操作失败，权限不够";
       break;
     case -1008:
       msg = "邮箱已经被注册";
@@ -43,7 +43,9 @@ function handlerError(code, ctx) {
     case -3004:
       msg = "邮箱错误";
       break;
-
+    case -4001:
+      msg = "图片不符合要求";
+      break;
     default:
       msg = "未知错误";
   }

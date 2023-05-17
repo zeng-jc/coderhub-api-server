@@ -19,12 +19,12 @@ class UserDB {
   async users(query) {
     const { limit, offset } = query;
     const statement =
-      "select id,nickname,username,avatar,gender,createAt,email from user limit ? offset ?;";
+      "select id,nickname,username,gender,createAt,email from user limit ? offset ?;";
     const [values] = await connectPool.execute(statement, [limit, offset]);
     return values;
   }
   async getUserByUsername(username) {
-    const statement = `select id,nickname,username, avatar, gender,email, createAt
+    const statement = `select id,nickname,username,gender,email,createAt
       from user where username = ?;`;
     const [values] = await connectPool.execute(statement, [username]);
     return values[0];

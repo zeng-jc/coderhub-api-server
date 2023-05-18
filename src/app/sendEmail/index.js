@@ -18,7 +18,7 @@ module.exports = function sendEmail(verifyCode, recipient) {
       to: recipient, //收件人邮箱
       subject: "欢迎来到程序员社区", //邮件主题
       html: `
-    <p>邮箱验证码为:<strong style="color:#165dff;">${verifyCode}</strong><p>
+    <p>您的验证码为:<strong style="color:#165dff;">${verifyCode}</strong>，有效期为2分钟。<p>
   `,
     };
     transporter.sendMail(mailOptions, (err, info) => {

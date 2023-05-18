@@ -41,8 +41,8 @@ class authController {
         code: 200,
         msg: "邮件发送成功",
       };
-      // 3.设置验证码有效期为 1 分钟
-      const expirationTime = 1000 * 60;
+      // 3.设置验证码有效期为 2 分钟
+      const expirationTime = 1000 * 120;
       // 4.邮箱是唯一的,可以根据邮箱把验证码和过期时间存入session中
       ctx.session[email] = {
         verifyCode,

@@ -7,7 +7,7 @@ const getRandomInt = require("../utils/getRandomInt");
 
 class authController {
   async login(ctx, next) {
-    const { id, username, email, nickname, gender } = ctx.loginUserInfo;
+    const { id, username, email, nickname, gender, avatar } = ctx.loginUserInfo;
     const payload = { id: id, name: username };
     // 通过私钥PRIVATE_KEY，颁发token
     const token = jwt.sign(payload, PRIVATE_KEY, {
@@ -20,6 +20,7 @@ class authController {
       data: {
         id,
         username,
+        avatar,
         email,
         nickname,
         gender,

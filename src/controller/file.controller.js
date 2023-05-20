@@ -11,11 +11,15 @@ class fileController {
   }
   async getAvatarByUserId(ctx, next) {
     const user_id = ctx.params.userId;
-    const { filename, mimetype } = await getAvatarByUserId(user_id);
-    // 指定返回的数据类型
-    ctx.type = mimetype;
-    // 路径是相对于项目的启动目录
-    ctx.body = fs.createReadStream(`./upload/avatar/${filename}`);
+    try {
+      const { filename, mimetype } = await getAvatarByUserId(user_id);
+      // 指定返回的数据类型
+      ctx.type = mimetype;
+      // 路径是相对于项目的启动目录
+      ctx.body = fs.createReadStream(`./upload/avatar/${filename}`);
+    } catch (error) {
+      ctx.body = null;
+    }
   }
 }
 

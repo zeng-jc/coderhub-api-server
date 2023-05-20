@@ -19,6 +19,7 @@ class momentController {
   async getMomentList(ctx, next) {
     const { offset, limit, username } = ctx.query;
     if (!offset || !limit) return ctx.app.emit("error", -1001, ctx);
+    // 一共多少条动态
     const count = await totalCount(username);
     const res = await getMomentList(limit, offset, username);
     ctx.body = {

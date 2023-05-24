@@ -16,7 +16,10 @@ class commentDB {
   async getCommentByMomentId(moment_id) {
     const statement = `select 
       c.id id,c.content content,c.comment_id commentId,c.createAt createAt,
-      JSON_OBJECT("id",u.id ,"nickname",u.nickname) user
+      JSON_OBJECT("id",u.id ,
+        "nickname",u.nickname,
+        "username",u.username,
+        "avatar",concat('http://localhost:8000/file/avatar/',u.id)) user
       from comment c left join user u 
       on c.user_id = u.id 
       where moment_id = ?

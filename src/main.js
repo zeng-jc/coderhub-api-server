@@ -2,13 +2,15 @@ const Koa = require("koa");
 const cors = require("koa2-cors");
 const bodyParser = require("koa-bodyparser");
 const handlerError = require("./app/handlerError");
+const config = require("../config");
 
 const userRouter = require("./router/user.router");
 const authRouter = require("./router/auth.router");
 const momentRouter = require("./router/moment.router");
 const commentRouter = require("./router/comment.router");
-const koaSession = require("koa-session");
 const fileRrouter = require("./router/file.router");
+
+const koaSession = require("koa-session");
 const app = new Koa();
 
 // 解决跨域
@@ -40,6 +42,6 @@ app.use(fileRrouter.allowedMethods());
 // 错误处理
 app.on("error", handlerError);
 
-app.listen(8000, () => {
-  console.log("koa服务器启动成功");
+app.listen(config.server.port, config.server.host, () => {
+  console.log(`koa服务器启动成功 ${config.server.host}:${config.server.port}`);
 });

@@ -1,10 +1,11 @@
 const connectPool = require("../app/connectPool");
+const config = require("../../config");
 
 class authDB {
   // 1.验证用户登录的数据库操作
   async verifyLogin(email, password) {
     const statement = `select id,username,email,nickname,gender,createAt,
-      concat('http://localhost:8000/file/avatar/',id) avatar  
+      concat('${config.server.base}/file/avatar/',id) avatar  
       from user
       where email = ? && password = ?`;
     const [values] = await connectPool.execute(statement, [email, password]);

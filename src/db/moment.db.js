@@ -1,4 +1,5 @@
 const connectPool = require("../app/connectPool");
+const config = require("../../config");
 
 class momentDB {
   async create(user_id, content) {
@@ -14,7 +15,7 @@ class momentDB {
       "username",u.username,
       "nickname",u.nickname,
       "gender",u.gender,
-      "avatar",concat('http://localhost:8000/file/avatar/',u.id)) userInfo,
+      "avatar",concat('${config.server.base}/file/avatar/',u.id)) userInfo,
       (select count(*) from comment where moment_id = m.id) commentCount
       from moment m left join user u 
       on m.user_id = u.id where u.username like ? 
@@ -33,7 +34,7 @@ class momentDB {
       "nickname",u.nickname,
       "gender",u.gender,
       "createAt",u.createAt,
-      "avatar",concat('http://localhost:8000/file/avatar/',u.id)) user
+      "avatar",concat('${config.server.base}/file/avatar/',u.id)) user
     from moment m left join user u on m.user_id = u.id
     where m.id = ?;`;
     const [values] = await connectPool.execute(statement, [momentId]);

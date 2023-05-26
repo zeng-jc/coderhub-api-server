@@ -1,13 +1,14 @@
 const mysql = require("mysql2");
+const config = require("../../config");
 
 // 1.创建连接池
 const connectPool = mysql.createPool({
-  host: "localhost",
-  port: 3306,
-  database: "coderhub",
-  user: "root",
-  password: "123",
-  connectionLimit: 10,
+  host: config.db.host,
+  port: config.db.port,
+  database: config.db.database,
+  user: config.db.user,
+  password: config.db.password,
+  connectionLimit: config.db.connectionLimit,
 });
 
 // 2.判断连接是否成功

@@ -1,4 +1,5 @@
 const connectPool = require("../app/connectPool");
+const config = require("../../config");
 
 class commentDB {
   async create(user_id, moment_id, content) {
@@ -19,7 +20,7 @@ class commentDB {
       JSON_OBJECT("id",u.id ,
         "nickname",u.nickname,
         "username",u.username,
-        "avatar",concat('http://localhost:8000/file/avatar/',u.id)) user
+        "avatar",concat('${config.server.base}/file/avatar/',u.id)) user
       from comment c left join user u 
       on c.user_id = u.id 
       where moment_id = ?

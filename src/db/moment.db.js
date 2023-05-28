@@ -2,9 +2,9 @@ const connectPool = require("../app/connectPool");
 const config = require("../../config");
 
 class momentDB {
-  async create(user_id, content) {
-    const statement = "insert into moment (user_id, content) values (?,?)";
-    const res = await connectPool.execute(statement, [user_id, content]);
+  async create(user_id, user_username, content) {
+    const statement = "insert into moment (user_id,user_username, content) values (?,?,?)";
+    const res = await connectPool.execute(statement, [user_id, user_username, content]);
     return res[0];
   }
   // 动态列表

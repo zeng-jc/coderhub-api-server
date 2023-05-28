@@ -4,8 +4,9 @@ class momentController {
   async create(ctx, next) {
     const user_id = ctx.user.id;
     const content = ctx.request.body.content;
+    const user_username = ctx.user.name;
     if (!content) return ctx.app.emit("error", -1001, ctx);
-    const res = await create(user_id, content);
+    const res = await create(user_id, user_username, content);
     ctx.body = {
       code: 200,
       msg: "动态发布成功",

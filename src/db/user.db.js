@@ -25,8 +25,20 @@ class UserDB {
     return values;
   }
   async getUserByUsername(username) {
-    const statement = `select id,nickname,concat('${config.server.base}/file/avatar/',id) avatar,username,gender,email,user_status,user_level,bio,birthday,createAt
-      from user where username = ?;`;
+    const statement = `select id,nickname,
+    concat('${config.server.base}/file/avatar/',id) avatar,
+    username,gender,email,
+    user_status,
+    user_level,
+    bio,birthday,
+    phone,
+    school,
+    major,
+    position,
+    personal_blog,
+    github,
+    createAt
+    from user where username = ?;`;
     const [values] = await connectPool.execute(statement, [username]);
     return values[0];
   }

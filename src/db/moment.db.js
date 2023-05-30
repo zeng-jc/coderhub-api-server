@@ -40,6 +40,7 @@ class momentDB {
     const [values] = await connectPool.execute(statement, [momentId]);
     return values;
   }
+  // 删除动态
   async remove(moment_id, user_id) {
     const statement = "delete from moment where id = ? && user_id = ?;";
     const res = await connectPool.execute(statement, [moment_id, user_id]);

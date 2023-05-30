@@ -44,6 +44,7 @@ class momentController {
       },
     };
   }
+  // 删除动态
   async remove(ctx, next) {
     const moment_id = ctx.params.momentId;
     const user_id = ctx.user.id;

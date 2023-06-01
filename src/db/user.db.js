@@ -42,6 +42,46 @@ class UserDB {
     const [values] = await connectPool.execute(statement, [username]);
     return values[0];
   }
+  async updateUser(id, userInfo) {
+    const {
+      nickname,
+      gender,
+      bio,
+      birthday,
+      phone,
+      school,
+      major,
+      position,
+      personal_blog,
+      github,
+    } = userInfo;
+    const statement = `update user set 
+    nickname=?,
+    gender=?,
+    bio=?,
+    birthday=FROM_UNIXTIME(?),
+    phone=?,
+    school=?,
+    major=?,
+    position=?,
+    personal_blog=?,
+    github=? where id = ?;`;
+    const res = await connectPool.execute(statement, [
+      nickname,
+      gender,
+      bio,
+      //由于前端js生成的时间戳是毫秒级别，而FROM_UNIXTIME()函数接收的参数单位是秒，所以需要除以1000
+      new Date(birthday).getTime() / 1000,
+      phone,
+      school,
+      major,
+      position,
+      personal_blog,
+      github,
+      id,
+    ]);
+    return res[0];
+  }
 }
 
 module.exports = new UserDB();

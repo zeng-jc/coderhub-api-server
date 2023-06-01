@@ -52,6 +52,19 @@ class userController {
       },
     };
   }
+  async updateUser(ctx, next) {
+    const id = ctx.user.id;
+    const userInfo = ctx.request.body;
+    try {
+      await userDB.updateUser(id, userInfo);
+    } catch (error) {
+      return ctx.app.emit("error", -1001, ctx);
+    }
+    ctx.body = {
+      code: 200,
+      msg: "用户信息修改成功",
+    };
+  }
 }
 
 module.exports = new userController();

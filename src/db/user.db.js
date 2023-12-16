@@ -28,14 +28,13 @@ class UserDB {
     const statement = `select id,nickname,
     concat('${config.server.base}/file/avatar/',id) avatar,
     username,gender,email,
-    user_status,
-    user_level,
+    status,
+    level,
     bio,birthday,
     phone,
     school,
     major,
     position,
-    personal_blog,
     github,
     createAt
     from user where username = ?;`;
@@ -52,31 +51,27 @@ class UserDB {
       school,
       major,
       position,
-      personal_blog,
       github,
     } = userInfo;
     const statement = `update user set 
     nickname=?,
     gender=?,
     bio=?,
-    birthday=FROM_UNIXTIME(?),
+    birthday=?,
     phone=?,
     school=?,
     major=?,
     position=?,
-    personal_blog=?,
     github=? where id = ?;`;
     const res = await connectPool.execute(statement, [
       nickname,
       gender,
       bio,
-      //由于前端js生成的时间戳是毫秒级别，而FROM_UNIXTIME()函数接收的参数单位是秒，所以需要除以1000
-      new Date(birthday).getTime() / 1000,
+      birthday,
       phone,
       school,
       major,
       position,
-      personal_blog,
       github,
       id,
     ]);
